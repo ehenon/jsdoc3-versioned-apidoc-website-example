@@ -1,0 +1,16 @@
+{
+  "name": "jsdoc3-versioned-apidoc-website-example",
+  "version": "1.0.0",
+  "description": "Project serving as an example for using JSDoc 3 and generating a versioned API doc website via GitHub Pages and the Docdash template theme",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ehenon/jsdoc3-versioned-apidoc-website-example.git"
+  },
+  "author": "ehenon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ehenon/jsdoc3-versioned-apidoc-website-example/issues"
+  },
+  "homepage": "https://github.com/ehenon/jsdoc3-versioned-apidoc-website-example#readme"
+}

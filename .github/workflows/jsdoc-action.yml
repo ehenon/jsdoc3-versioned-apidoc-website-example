@@ -1,0 +1,56 @@
+name: Update API doc website
+
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch code
+        uses: actions/checkout@v2
+
+      - name: Get tag name
+        run: echo "GIT_TAG_NAME=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
+      - name: Generate documentation for the new version
+        uses: andstor/jsdoc-action@v1
+        with:
+          config_file: jsdoc.conf.json
+          template: docdash
+          front_page: README.md
+
+      - name: Push documentation for the new version
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          destination_dir: docs/${{ env.GIT_TAG_NAME }}
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'docs: add new doc folder for tag ${{ env.GIT_TAG_NAME }}'
+
+      - name: Checkout gh-pages website branch
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+
+      - name: Update main page of API doc website
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          html_content=$'<select name="versions_dropdown_list" id="versions_dropdown_list" onchange="location = this.value;">\n'
+          html_content+=$'\t<option value disabled selected>Version</option>\n'
+          for dir in docs/*/
+          do
+            current_folder_name=$(basename $dir)
+            html_content+=$'\t<option value="'./docs/$current_folder_name/index.html$'">'$current_folder_name$'</option>\n'
+          done
+          html_content+=$'</select>'
+          echo "$html_content" > version_selector.html
+          git add version_selector.html
+          git commit -m 'docs: update version selector to handle tag ${{ env.GIT_TAG_NAME }}'
+          git push

@@ -1,0 +1,49 @@
+{
+  "tags": {
+      "allowUnknownTags": false
+  },
+  "source": {
+      "include": [ "src", "./README.md" ],
+      "includePattern": "\\.js$",
+      "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": [
+      "plugins/markdown"
+  ],
+  "opts": {
+      "template": "node_modules/docdash",
+      "encoding": "utf8",
+      "destination": "docs/",
+      "recurse": true,
+      "verbose": true
+  },
+  "templates": {
+      "cleverLinks": false,
+      "monospaceLinks": false
+  },
+  "docdash": {
+      "static": true,
+      "sort": true,
+      "search": true,
+      "commonNav": true,
+      "collapse": true,
+      "wrap": true,
+      "typedefs": false,
+      "private": false,
+      "scripts": [],
+      "menu": {
+          "Project GitHub repository": {
+            "href": "https://github.com/ehenon/jsdoc3-versioned-apidoc-website-example",
+            "target": "_blank",
+            "class": "menu-item",
+            "id": "website_link"
+          },
+          "Open an issue": {
+            "href": "https://github.com/ehenon/jsdoc3-versioned-apidoc-website-example/issues",
+            "target": "_blank",
+            "class": "menu-item",
+            "id": "website_link"
+          }
+      }
+  }
+}
