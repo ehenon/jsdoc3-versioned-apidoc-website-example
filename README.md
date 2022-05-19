@@ -8,7 +8,6 @@ A sample documented source code is created in the `/src` folder of the repositor
 
 At each release creation, a GitHub Action is automatically launched to update the documentation website. This action:
 - Checkouts the code
-- Retrieves the new release tag name
 - Generates the documentation from the `jsdoc.conf.json` configuration file, using the [Docdash](https://github.com/clenemt/docdash) template theme and selecting the `README.md` file of the project as content for the homepage
 - Pushes the new documentation files into the appropriate `docs/vX.X.X` folder of the `gh-pages` website branch
 - Updates the main page of the API doc website to handle the new release tag
