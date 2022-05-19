@@ -1,9 +1,8 @@
 name: Update API doc website
 
 on:
-  push:
-    tags:
-      - '**'
+  release:
+    types: [published]
 
 jobs:
   update:
@@ -12,10 +11,7 @@ jobs:
       - name: Checkout current branch code
         uses: actions/checkout@v2
 
-      - name: Get tag name
-        run: echo "GIT_TAG_NAME=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-
-      - name: Generate documentation for the new version
+      - name: Generate documentation for the new release
         uses: andstor/jsdoc-action@v1
         with:
           config_file: jsdoc.conf.json
@@ -28,10 +24,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
           publish_branch: gh-pages
-          destination_dir: docs/${{ env.GIT_TAG_NAME }}
+          destination_dir: docs/${{ github.event.release.tag_name }}
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: 'docs: add new doc folder for tag ${{ env.GIT_TAG_NAME }}'
+          commit_message: 'docs: add new doc folder for release ${{ github.event.release.tag_name }}'
 
       - name: Checkout gh-pages website branch
         uses: actions/checkout@v2
